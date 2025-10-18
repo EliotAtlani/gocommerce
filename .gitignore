@@ -60,11 +60,11 @@ payment-service/payment-service
 notification-service/notification-service
 api-gateway/api-gateway
 
-# Go build output
+# Go build output (only binaries in root, not source files like main.go)
 *.exe~
-main
-server
-test-client
+/main
+/server
+/test-client
 
 # OS specific (macOS)
 .DS_Store
