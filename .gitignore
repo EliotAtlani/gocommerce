@@ -1,0 +1,99 @@
+# Environment variables - NEVER commit secrets!
+.env
+.env.local
+.env.*.local
+*.env
+
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+/bin/
+/dist/
+
+# Go workspace file (if not using workspaces, uncomment)
+# go.work
+
+# Go module download cache
+go.sum.backup
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Docker volumes and build cache
+docker-compose.override.yml
+*.log
+
+# Database data (if using local volumes)
+/data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Test coverage
+*.coverprofile
+coverage.html
+coverage.out
+
+# Compiled binaries (executables)
+**/cmd/server/server
+**/cmd/test-client/test-client
+auth-service/auth-service
+auth-service/test-client
+user-service/user-service
+product-service/product-service
+order-service/order-service
+payment-service/payment-service
+notification-service/notification-service
+api-gateway/api-gateway
+
+# Go build output
+*.exe~
+main
+server
+test-client
+
+# OS specific (macOS)
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# OS specific (Windows)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# OS specific (Linux)
+*~
+
+# Certificates and keys - SECURITY
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Playground/scratch files (optional - remove if you want to commit playground)
+playground/
+
+

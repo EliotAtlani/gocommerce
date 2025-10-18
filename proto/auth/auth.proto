@@ -1,0 +1,59 @@
+syntax= "proto3";
+
+package auth;
+option go_package = "go-project/proto/auth";
+
+
+// ============================================
+// Register: Create a new user account
+// ============================================
+message RegisterRequest{
+    string email = 1;
+    string password = 2;
+    string name = 3;
+}
+
+message RegisterResponse {
+    string user_id = 1;
+    string message = 2;
+
+}
+
+// ============================================
+// Login: Authenticate and get JWT token
+// ============================================
+
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string token = 1;
+    string user_id = 2;
+    string name = 3;
+}
+
+
+// ============================================
+// ValidateToken
+// ============================================
+message ValidateTokenRequest{
+    string token = 1;
+}
+
+message ValidateTokenResponse{
+    bool valid =1;
+    string user_id =2;
+    string error = 3;
+}
+
+// ============================================
+// AuthService: gRPC service definition
+// ============================================
+
+service AuthService {
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc Login(LoginRequest) returns (LoginResponse);
+    rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+}
