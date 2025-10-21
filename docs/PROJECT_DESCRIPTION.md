@@ -85,43 +85,43 @@ Build a production-ready e-commerce backend using Go microservices that communic
 ### **Phase 1: Foundation**
 
 - ✅ Project structure setup (multi-module workspace)
-- ✅ Protocol Buffer definitions for all services
-- ✅ Database schemas and migrations
+- ✅ Protocol Buffer definitions for auth and user services
+- ✅ Database schemas and migrations for auth and user services
 - ✅ Authentication service with JWT
 - ✅ API Gateway with basic routing
 
 ### **Phase 2: Core Services**
 
 - ✅ User service with CRUD operations
-- ✅ Product service with inventory management
-- ✅ Service-to-service gRPC communication
+- ⬜ Product service with inventory management
+- ✅ Service-to-service gRPC communication (Auth ↔ User)
 - ✅ Middleware for authentication in API Gateway
 - ✅ Error handling and logging
 
 ### **Phase 3: Business Logic**
 
-- ✅ Order creation workflow (multi-service transaction)
-- ✅ Inventory deduction on order placement
-- ✅ Payment processing integration
-- ✅ Order status state machine
+- ⬜ Order creation workflow (multi-service transaction)
+- ⬜ Inventory deduction on order placement
+- ⬜ Payment processing integration
+- ⬜ Order status state machine
 
 ### **Phase 4: Asynchronous Processing**
 
-- ✅ RabbitMQ/Redis Queue setup
-- ✅ Task producers in services (Order, Payment)
-- ✅ Notification service as consumer
-- ✅ Email/SMS sending after order events
-- ✅ Retry mechanisms and dead-letter queues
+- ⬜ RabbitMQ/Redis Queue setup
+- ⬜ Task producers in services (Order, Payment)
+- ⬜ Notification service as consumer
+- ⬜ Email/SMS sending after order events
+- ⬜ Retry mechanisms and dead-letter queues
 
 ### **Phase 5: Production Readiness**
 
-- ✅ Docker containerization for each service
+- ✅ Docker containerization for existing services
 - ✅ Docker Compose for local development
-- ✅ Health check endpoints
-- ✅ Graceful shutdown handling
+- ⬜ Health check endpoints
+- ⬜ Graceful shutdown handling
 - ✅ Configuration management (environment variables)
-- ✅ Structured logging (zerolog/zap)
-- ✅ Basic metrics and monitoring setup
+- ⬜ Structured logging (zerolog/zap)
+- ⬜ Basic metrics and monitoring setup
 
 ## **Learning Outcomes**
 
