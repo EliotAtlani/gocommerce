@@ -8,11 +8,13 @@ import (
 
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"auth-service/internal/handlers"
 	"auth-service/internal/repository"
 	"auth-service/internal/service"
 	pb "go-project/proto/auth"
+	userpb "go-project/proto/user"
 )
 
 func main() {
@@ -37,9 +39,23 @@ func main() {
 		jwtSecret = "23094uoifhpowisrfhp02893ryufpowafh"
 	}
 
+	userServiceUrl := os.Getenv("USER_SERVICE_URL")
+
+	if userServiceUrl == "" {
+		userServiceUrl = "user-service:50052"
+	}
+
+	userConn, err := grpc.Dial(userServiceUrl, grpc.WithTransportCredentials(insecure.NewCredentials()))
+
+	if err != nil {
+		log.Fatalf("Failed to connect to User Service: %v", err)
+	}
+	defer userConn.Close()
+
+	userClient := userpb.NewUserServiceClient(userConn)
 	userRepo := repository.NewPostgresUserRepository(db)
 	authService := service.NewAuthService(userRepo, jwtSecret)
-	authHandler := handlers.NewAuthHandler(authService)
+	authHandler := handlers.NewAuthHandler(authService, userClient)
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterAuthServiceServer(grpcServer, authHandler)

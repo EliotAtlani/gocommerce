@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package user;
+option go_package = "go-project/proto/user";
+
+import "google/protobuf/timestamp.proto";
+
+// ============================================
+// Data Models
+// ============================================
+
+// Address represents a user's shipping/billing address
+message Address {
+    string id = 1;
+    string user_id = 2;
+    string street = 3;
+    string city = 4;
+    string state = 5;
+    string postal_code = 6;
+    string country = 7;
+    bool is_default = 8;
+    google.protobuf.Timestamp created_at = 9;
+}
+
+// User represents a complete user profile
+message User {
+    string id = 1;
+    string email = 2;
+    string name = 3;
+    string phone = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+    repeated Address addresses = 7; // User can have multiple addresses
+}
+
+// ============================================
+// Request/Response Messages
+// ============================================
+
+message GetUserRequest {
+    string user_id = 1;
+}
+
+message GetUserResponse {
+    User user = 1;
+    string error = 2;
+}
+
+message CreateUserRequest {
+    string user_id = 1;  // Will come from auth service
+    string email = 2;
+    string name = 3;
+    string phone = 4;
+}
+
+message CreateUserResponse {
+    User user = 1;
+    string error = 2;
+}
+
+message UpdateUserRequest {
+    string user_id = 1;
+    string name = 2;
+    string phone = 3;
+}
+
+message UpdateUserResponse {
+    User user = 1;
+    string error = 2;
+}
+
+// TODO(human): Add DeleteUser and Address-related request/response messages below
+message DeleteUserRequest {
+    string user_id = 1;
+}
+
+message DeleteUserResponse {
+    bool is_deleted = 1;
+    string error = 2;
+}
+
+message AddAddressRequest{
+    string user_id = 1;
+    string street = 2;
+    string city = 3;
+    string state = 4;
+    string postal_code = 5;
+    string country = 6;
+    bool is_default = 7;
+}
+
+message AddAddressResponse{
+    Address address = 1;
+    string error = 2;
+
+}
+
+message GetAddressesRequest{
+    string user_id = 1;
+
+}
+
+message GetAddressesResponse{
+    repeated Address addresses = 1;
+    string error = 2;
+
+}
+
+// ============================================
+// UserService: gRPC service definition
+// ============================================
+service UserService{
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+
+    rpc AddAddress(AddAddressRequest) returns (AddAddressResponse);
+    rpc GetAddresses(GetAddressesRequest) returns (GetAddressesResponse);
+}
+

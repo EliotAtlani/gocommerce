@@ -1,6 +1,8 @@
-go 1.25.3
+go 1.23.0
 
 use (
 	./auth-service
-	./proto
+	./proto/auth
+	./proto/user
+	./user-service
 )

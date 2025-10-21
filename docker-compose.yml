@@ -28,10 +28,45 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
+      USER_SERVICE_URL: user-service:50052
     depends_on:
       postgres-auth:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+    restart: unless-stopped
+
+  postgres-user:
+    image: postgres:15
+    container_name: user-postgres
+    environment:
+      POSTGRES_USER: useruser
+      POSTGRES_PASSWORD: userpass
+      POSTGRES_DB: userdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U useruser -d userdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  user-service:
+    build:
+      context: .
+      dockerfile: ./user-service/Dockerfile
+    container_name: user-service
+    ports:
+      - "50052:50052"
+    environment:
+      DATABASE_URL: postgres://useruser:userpass@postgres-user:5432/userdb?sslmode=disable
+    depends_on:
+      postgres-user:
         condition: service_healthy
     restart: unless-stopped
 
 volumes:
   auth-db-data:
+  user-db-data:

@@ -1,30 +1,31 @@
-FROM golang:1.25-alpine AS builder
+# Build stage
+FROM golang:1.23-alpine AS builder
 
-WORKDIR /app
+WORKDIR /build
 
-# Copy workspace file
-COPY go.work .
+# Copy proto files first
+COPY proto/auth ./proto/auth
+COPY proto/user ./proto/user
 
-# Copy proto module
-COPY proto/ ./proto/
+# Copy auth-service
+COPY auth-service ./auth-service
 
-# Copy auth-service module
-COPY auth-service/go.mod auth-service/go.sum ./auth-service/
-WORKDIR /app/auth-service
+WORKDIR /build/auth-service
+
+# Download dependencies
 RUN go mod download
 
-# Copy auth-service source
-COPY auth-service/ ./
+# Build the application
+RUN CGO_ENABLED=0 GOOS=linux go build -o /auth-service ./cmd/server
 
-RUN go build -o auth-service ./cmd/server
-
-
+# Run stage
 FROM alpine:latest
-RUN apk --no-cache add ca-certificates 
+RUN apk --no-cache add ca-certificates
 
 WORKDIR /root/
 
-COPY --from=builder /app/auth-service/auth-service .
+# Copy the binary from builder
+COPY --from=builder /auth-service .
 
 EXPOSE 50051
 
