@@ -67,6 +67,22 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./api-gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      AUTH_SERVICE_URL: auth-service:50051
+      USER_SERVICE_URL: user-service:50052
+      PORT: "8080"
+    depends_on:
+      - auth-service
+      - user-service
+    restart: unless-stopped
+
 volumes:
   auth-db-data:
   user-db-data:

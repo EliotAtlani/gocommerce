@@ -12,8 +12,9 @@
 *.dylib
 *.test
 *.out
-/bin/
+*/bin/
 /dist/
+
 
 # Go workspace file (if not using workspaces, uncomment)
 # go.work

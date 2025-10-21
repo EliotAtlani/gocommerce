@@ -1,6 +1,7 @@
 go 1.23.0
 
 use (
+	./api-gateway
 	./auth-service
 	./proto/auth
 	./proto/user
